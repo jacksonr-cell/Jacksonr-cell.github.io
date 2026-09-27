@@ -2,7 +2,7 @@ services:
   - type: web
     name: jackson-rotich-portfolio
     runtime: node
-    plan: starter
+    plan: free
     buildCommand: pnpm install --prod --frozen-lockfile --ignore-scripts
     startCommand: node --env-file-if-exists=.env server.js
     healthCheckPath: /healthz
