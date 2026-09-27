@@ -1,0 +1,1296 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="Jackson Rotich — Full-Stack & Mobile Software Developer. Building scalable systems and user-centric digital experiences. Open to internships and collaborations.">
+    <meta name="keywords" content="Jackson Rotich, Software Developer, Full Stack, Backend, NestJS, Android, Kotlin, TypeScript, Kabarak University, Kenya">
+    <meta name="author" content="Jackson Rotich">
+    <meta name="robots" content="index, follow">
+
+    <!-- Open Graph / Social Preview -->
+    <meta property="og:title" content="Jackson Rotich | Software & Web Developer">
+    <meta property="og:description" content="Building scalable systems & user-centric digital realities. Full-Stack Developer from Kenya.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://jacksonr-cell.github.io">
+
+    <!-- Theme Color -->
+    <meta name="theme-color" content="#6b21a8">
+
+    <title>Jackson Rotich | Software & Web Developer</title>
+
+    <link rel="stylesheet" href="/site.css">
+
+    <!-- Three.js CDN (preserved from original) -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+
+    <style>
+        /* =============================================
+           BASE & SCROLLBAR (preserved from original)
+        ============================================= */
+        :root {
+            --bg: #050505;
+            --surface: rgba(9,9,11,0.5);
+            --border: rgba(109,40,217,0.2);
+            --purple-main: #8b5cf6;
+            --purple-bright: #a855f7;
+        }
+
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: #09090b; }
+        ::-webkit-scrollbar-thumb { background: #6b21a8; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #a855f7; }
+
+        html { background-color: #050505; }
+        body { background-color: var(--bg); font-family: system-ui, -apple-system, sans-serif; }
+
+        /* =============================================
+           LOADING SCREEN
+        ============================================= */
+        #loading-screen {
+            position: fixed; inset: 0; z-index: 9999;
+            background: #050505;
+            display: flex; flex-direction: column;
+            align-items: center; justify-content: center;
+            transition: opacity 0.6s ease;
+        }
+        .loader-ring {
+            width: 52px; height: 52px;
+            border: 2px solid rgba(139,92,246,0.15);
+            border-top-color: #8b5cf6;
+            border-radius: 50%;
+            animation: spin 0.9s linear infinite;
+        }
+        @keyframes spin { to { transform: rotate(360deg); } }
+
+        /* =============================================
+           SCROLL PROGRESS BAR
+        ============================================= */
+        #scroll-progress {
+            position: fixed; top: 0; left: 0;
+            height: 2px; width: 0%;
+            background: linear-gradient(90deg, #6b21a8, #a855f7, #d946ef);
+            z-index: 9998;
+            transition: width 0.08s linear;
+        }
+
+        /* =============================================
+           GLASSMORPHISM
+        ============================================= */
+        .glass {
+            background: rgba(9,9,11,0.55);
+            backdrop-filter: blur(14px);
+            -webkit-backdrop-filter: blur(14px);
+        }
+
+        /* =============================================
+           TYPOGRAPHY UTILITIES
+        ============================================= */
+        .gradient-text {
+            background: linear-gradient(135deg, #a855f7 0%, #d946ef 50%, #7c3aed 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        /* =============================================
+           ANIMATIONS
+        ============================================= */
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50%       { transform: translateY(-7px); }
+        }
+        .float-animate { animation: float 4.5s ease-in-out infinite; }
+
+        @keyframes spin-slow { to { transform: rotate(360deg); } }
+        .avatar-ring {
+            background: conic-gradient(#6b21a8, #a855f7, #d946ef, #a855f7, #6b21a8);
+            animation: spin-slow 7s linear infinite;
+        }
+
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50%       { opacity: 0; }
+        }
+        .typing-cursor {
+            display: inline-block; width: 2px; height: 1em;
+            background: #a855f7; margin-left: 2px;
+            vertical-align: middle;
+            animation: blink 1s step-end infinite;
+        }
+
+        @keyframes pulse-ring {
+            0%   { transform: scale(1); opacity: 1; }
+            100% { transform: scale(2.2); opacity: 0; }
+        }
+        .status-pulse::after {
+            content: '';
+            position: absolute; inset: 0;
+            border-radius: 50%; background: #22c55e;
+            animation: pulse-ring 1.6s ease-out infinite;
+        }
+
+        /* =============================================
+           FADE-UP ON SCROLL
+        ============================================= */
+        .fade-up {
+            opacity: 0; transform: translateY(28px);
+            transition: opacity 0.65s ease, transform 0.65s ease;
+        }
+        .fade-up.visible { opacity: 1; transform: translateY(0); }
+
+        /* =============================================
+           SKILL BARS
+        ============================================= */
+        .skill-bar-fill {
+            height: 100%; border-radius: 4px;
+            background: linear-gradient(90deg, #6b21a8, #a855f7);
+            width: 0%;
+            transition: width 1.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        /* =============================================
+           TIMELINE DOTS
+        ============================================= */
+        .timeline-dot::before {
+            content: '';
+            position: absolute; left: -22px; top: 10px;
+            width: 11px; height: 11px;
+            border-radius: 50%;
+            background: #8b5cf6;
+            border: 2px solid #a855f7;
+            box-shadow: 0 0 12px rgba(139,92,246,0.5);
+        }
+
+        /* =============================================
+           PROJECT CARDS
+        ============================================= */
+        .project-card {
+            transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+        }
+        .project-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 0 36px rgba(139,92,246,0.12);
+        }
+
+        /* =============================================
+           MOBILE MENU
+        ============================================= */
+        #mobile-menu {
+            max-height: 0; opacity: 0; overflow: hidden;
+            transition: max-height 0.3s ease, opacity 0.3s ease;
+        }
+        #mobile-menu.open { max-height: 320px; opacity: 1; }
+
+        /* =============================================
+           SCROLL-TO-TOP
+        ============================================= */
+        #scroll-top {
+            position: fixed; bottom: 1.75rem; right: 1.75rem;
+            z-index: 50; opacity: 0; pointer-events: none;
+            transition: opacity 0.3s ease, transform 0.2s ease;
+        }
+        #scroll-top.visible { opacity: 1; pointer-events: auto; }
+        #scroll-top:hover { transform: translateY(-2px); }
+
+        /* =============================================
+           ACTIVE NAV
+        ============================================= */
+        nav a.nav-active { color: #a855f7; }
+
+        /* =============================================
+           LIGHT MODE
+        ============================================= */
+        html.light-mode body { background-color: #f4f2ff; color: #18181b; }
+        html.light-mode .glass { background: rgba(244,242,255,0.75); }
+        html.light-mode #scroll-progress { filter: brightness(0.85); }
+        html.light-mode .gradient-text {
+            background: linear-gradient(135deg, #7c3aed, #a855f7, #6d28d9);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        /* =============================================
+           MISC
+        ============================================= */
+        .section-header {
+            font-family: 'JetBrains Mono', 'Courier New', monospace;
+        }
+        .badge-in-dev {
+            animation: pulse 2.5s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        }
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50%       { opacity: 0.6; }
+        }
+    </style>
+</head>
+
+<body class="text-gray-300 selection:bg-purple-500 selection:text-white overflow-x-hidden">
+
+    <!-- Scroll Progress Bar -->
+    <div id="scroll-progress" aria-hidden="true"></div>
+
+    <!-- Loading Screen -->
+    <div id="loading-screen" role="status" aria-label="Loading portfolio">
+        <div class="text-center space-y-5">
+            <div class="text-2xl font-black font-mono text-white tracking-widest">
+                <span class="text-purple-500">JR</span><span class="text-zinc-700">_cell</span>
+            </div>
+            <div class="loader-ring mx-auto"></div>
+            <p class="text-xs font-mono text-zinc-600 tracking-[0.3em]">INITIALIZING...</p>
+        </div>
+    </div>
+
+    <!-- 3D Canvas Background (preserved from original) -->
+    <canvas id="bg-canvas" class="fixed top-0 left-0 w-full h-full -z-10 pointer-events-none" aria-hidden="true"></canvas>
+
+    <!-- Scroll to Top Button -->
+    <button id="scroll-top" onclick="window.scrollTo({top:0,behavior:'smooth'})"
+        aria-label="Scroll to top"
+        class="w-10 h-10 bg-purple-800/80 hover:bg-purple-700 text-white rounded-full flex items-center justify-center shadow-lg shadow-purple-900/50 border border-purple-700/40">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7-7 7 7"/>
+        </svg>
+    </button>
+
+    <!-- =========================================
+         NAVIGATION
+    ========================================= -->
+    <header class="fixed top-0 left-0 w-full z-50 glass border-b border-purple-900/30 px-6 py-4" role="banner">
+        <div class="max-w-5xl mx-auto flex justify-between items-center">
+            <!-- Logo -->
+            <a href="#hero" class="text-xl tracking-wide text-white focus:outline-none focus:ring-2 focus:ring-purple-500 rounded">
+                <span class="font-black text-purple-500">JACKSON ROTICH</span>
+                <span class="text-xs text-zinc-500 font-mono ml-2 hidden sm:inline">[Jacksonr-cell]</span>
+            </a>
+
+            <!-- Desktop Nav -->
+            <nav class="hidden md:flex items-center space-x-7 font-mono text-sm" aria-label="Primary navigation">
+                <a href="#about"      class="hover:text-purple-400 transition-colors duration-200">// about</a>
+                <a href="#skills"     class="hover:text-purple-400 transition-colors duration-200">// skills</a>
+                <a href="#projects"   class="hover:text-purple-400 transition-colors duration-200">// projects</a>
+                <a href="#experience" class="hover:text-purple-400 transition-colors duration-200">// journey</a>
+                <a href="#contact"    class="hover:text-purple-400 transition-colors duration-200">// contact</a>
+
+                <!-- Theme Toggle -->
+                <button id="theme-toggle" aria-label="Toggle color theme"
+                    class="p-1.5 rounded-lg bg-zinc-900/60 hover:bg-zinc-800 border border-zinc-800/60 transition-all text-base leading-none">
+                    <span id="theme-icon" aria-hidden="true">🌙</span>
+                </button>
+            </nav>
+
+            <!-- Mobile Hamburger -->
+            <button id="mobile-menu-btn" aria-label="Open navigation menu" aria-expanded="false"
+                class="md:hidden p-2 text-zinc-400 hover:text-purple-400 transition-colors">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                    <path id="ham-open"   stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+                    <path id="ham-close"  stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" class="hidden"/>
+                </svg>
+            </button>
+        </div>
+
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="md:hidden">
+            <nav class="flex flex-col space-y-3 font-mono text-sm pt-4 pb-2 border-t border-zinc-800/40 mt-3 px-1" aria-label="Mobile navigation">
+                <a href="#about"      class="hover:text-purple-400 transition-colors py-1">// about</a>
+                <a href="#skills"     class="hover:text-purple-400 transition-colors py-1">// skills</a>
+                <a href="#projects"   class="hover:text-purple-400 transition-colors py-1">// projects</a>
+                <a href="#experience" class="hover:text-purple-400 transition-colors py-1">// journey</a>
+                <a href="#contact"    class="hover:text-purple-400 transition-colors py-1">// contact</a>
+                <button id="theme-toggle-mobile" class="text-left py-1 text-zinc-500 hover:text-purple-400 transition-colors">
+                    <span id="theme-icon-mobile" aria-hidden="true">🌙</span> Toggle Theme
+                </button>
+            </nav>
+        </div>
+    </header>
+
+    <!-- =========================================
+         MAIN
+    ========================================= -->
+    <main class="max-w-5xl mx-auto px-6 pt-28 pb-24 relative z-10">
+
+        <!-- =============================================
+             HERO SECTION
+        ============================================= -->
+        <section id="hero" class="min-h-[92vh] flex flex-col justify-center py-12">
+
+            <div class="flex flex-col md:flex-row items-start md:items-center gap-10 mb-12">
+
+                <!-- Avatar -->
+                <div class="relative flex-shrink-0 float-animate" aria-hidden="true">
+                    <div class="avatar-ring absolute -inset-[3px] rounded-full opacity-70"></div>
+                    <div class="relative w-28 h-28 rounded-full bg-gradient-to-br from-purple-900 via-violet-800 to-fuchsia-900 flex items-center justify-center border border-purple-700/40 overflow-hidden">
+                        <span class="text-4xl font-black text-purple-200 select-none">JR</span>
+                    </div>
+                    <!-- Status badge -->
+                    <div class="absolute -bottom-2 -right-2 flex items-center gap-1.5 bg-zinc-950/90 rounded-full px-2.5 py-1 border border-zinc-800/80">
+                        <div class="relative w-2 h-2">
+                            <div class="w-2 h-2 rounded-full bg-green-500 status-pulse relative"></div>
+                        </div>
+                        <span class="text-xs font-mono text-green-400">Open to work</span>
+                    </div>
+                </div>
+
+                <!-- Hero Text -->
+                <div class="space-y-4 flex-1">
+                    <div class="inline-flex items-center gap-2 px-3 py-1 text-xs font-mono text-purple-400 bg-purple-950/40 border border-purple-800/50 rounded-full">
+                        <span class="w-1.5 h-1.5 rounded-full bg-purple-500 animate-pulse" aria-hidden="true"></span>
+                        Software & Web Developer · Kenya 🇰🇪
+                    </div>
+
+                    <h1 class="text-4xl md:text-5xl lg:text-[3.25rem] font-black text-white tracking-tight leading-tight">
+                        Hi, I'm <span class="gradient-text">Jackson Rotich</span>
+                    </h1>
+
+                    <div class="text-lg md:text-xl font-mono text-zinc-400 flex items-center flex-wrap gap-2 min-h-[2rem]">
+                        <span class="text-purple-500" aria-hidden="true">&gt;</span>
+                        <span id="typing-text" class="text-white" aria-live="polite"></span>
+                        <span class="typing-cursor" aria-hidden="true"></span>
+                    </div>
+
+                    <p class="text-zinc-400 max-w-xl leading-relaxed text-[0.95rem]">
+                        Performance-driven developer specializing in enterprise-grade backend architectures and robust mobile environments.
+                        I build clean, modular, scalable systems that bridge elegant design with solid engineering.
+                    </p>
+
+                    <!-- CTA Buttons -->
+                    <div class="flex flex-wrap gap-3 pt-1">
+                        <a href="#projects"
+                            class="px-5 py-2.5 font-mono text-sm bg-purple-700 hover:bg-purple-600 text-white rounded-lg shadow-lg shadow-purple-900/40 transition-all duration-200 hover:-translate-y-0.5 focus:outline-none focus:ring-2 focus:ring-purple-400">
+                            View Projects →
+                        </a>
+                        <a href="#contact"
+                            class="px-5 py-2.5 font-mono text-sm text-purple-400 border border-purple-700/50 hover:border-purple-500 hover:text-purple-300 rounded-lg transition-all duration-200 hover:-translate-y-0.5 focus:outline-none focus:ring-2 focus:ring-purple-400">
+                            Get In Touch
+                        </a>
+                    </div>
+
+                    <!-- Social Links -->
+                    <div class="flex items-center gap-5 pt-1">
+                        <span class="text-xs font-mono text-zinc-600">// connect:</span>
+                        <a href="https://github.com/Jacksonr-cell" target="_blank" rel="noopener noreferrer"
+                            class="flex items-center gap-1.5 text-sm text-zinc-400 hover:text-white transition-colors group">
+                            <svg class="w-4 h-4 group-hover:text-purple-400 transition-colors" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                                <path d="M12 0C5.374 0 0 5.373 0 12c0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23A11.509 11.509 0 0112 5.803c1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576C20.566 21.797 24 17.3 24 12c0-6.627-5.373-12-12-12z"/>
+                            </svg>
+                            GitHub
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Quick Stats Bar -->
+            <div class="w-full grid grid-cols-2 md:grid-cols-4 gap-4 border-t border-zinc-800/40 pt-8">
+                <div class="text-center">
+                    <div class="text-2xl font-black text-purple-400">2+</div>
+                    <div class="text-xs font-mono text-zinc-500 mt-1">Years Building</div>
+                </div>
+                <div class="text-center">
+                    <div class="text-2xl font-black text-purple-400">5+</div>
+                    <div class="text-xs font-mono text-zinc-500 mt-1">Projects Built</div>
+                </div>
+                <div class="text-center">
+                    <div class="text-2xl font-black text-purple-400">10+</div>
+                    <div class="text-xs font-mono text-zinc-500 mt-1">Technologies</div>
+                </div>
+                <div class="text-center">
+                    <div class="text-2xl font-black text-purple-400">∞</div>
+                    <div class="text-xs font-mono text-zinc-500 mt-1">Lines of Code</div>
+                </div>
+            </div>
+
+            <!-- Scroll Indicator -->
+            <div class="mt-14 flex justify-center" aria-hidden="true">
+                <div class="flex flex-col items-center gap-1.5 text-zinc-700 animate-bounce">
+                    <span class="text-[10px] font-mono tracking-widest">SCROLL</span>
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                    </svg>
+                </div>
+            </div>
+        </section>
+
+        <!-- =============================================
+             ABOUT SECTION
+        ============================================= -->
+        <section id="about" class="mb-28 fade-up" aria-label="About me">
+            <div class="border-b border-zinc-800 pb-3 mb-10">
+                <h2 class="text-xl font-mono font-bold text-white tracking-widest section-header">// ABOUT_ME</h2>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-10">
+                <div class="space-y-4">
+                    <p class="text-zinc-300 leading-relaxed">
+                        I'm <span class="text-purple-400 font-semibold">Jackson Rotich</span> — a performance-driven
+                        Software and Web Developer from Kenya, currently studying at Kabarak University.
+                        I specialize in building clean, modular systems that solve real-world problems at scale.
+                    </p>
+                    <p class="text-zinc-400 leading-relaxed text-sm">
+                        My passion lives at the intersection of backend architecture and mobile development —
+                        from designing low-latency REST APIs and security middleware, to crafting native Android
+                        experiences with Kotlin and Java. I thrive across the full stack.
+                    </p>
+                    <p class="text-zinc-400 leading-relaxed text-sm">
+                        Currently exploring cloud infrastructure, distributed systems design, and AI integration
+                        to build the next generation of intelligent applications.
+                    </p>
+
+                    <!-- Current Focus -->
+                    <div class="mt-5 bg-zinc-950/50 border border-zinc-800/60 rounded-xl p-4 space-y-2">
+                        <p class="text-xs font-mono text-purple-400 tracking-wider mb-3">// CURRENT_FOCUS</p>
+                        <div class="flex items-start gap-2 text-xs font-mono text-zinc-400">
+                            <span class="text-purple-500 mt-0.5">▸</span>
+                            Building relational DB schemas for <span class="text-zinc-300 ml-1">Kabarak Nest Accommodation</span>
+                        </div>
+                        <div class="flex items-start gap-2 text-xs font-mono text-zinc-400">
+                            <span class="text-purple-500 mt-0.5">▸</span>
+                            Optimizing CORS + token-refresh structures for strict API security
+                        </div>
+                        <div class="flex items-start gap-2 text-xs font-mono text-zinc-400">
+                            <span class="text-purple-500 mt-0.5">▸</span>
+                            Exploring <span class="text-zinc-300 mx-1">AWS cloud fundamentals</span> and Docker containerization
+                        </div>
+                    </div>
+                </div>
+
+                <!-- What I Do Cards -->
+                <div class="grid grid-cols-2 gap-3">
+                    <div class="bg-zinc-950/60 border border-zinc-800/50 rounded-xl p-4 hover:border-purple-900/50 transition-all duration-200 group">
+                        <div class="text-xl mb-2" aria-hidden="true">🏗️</div>
+                        <h3 class="text-xs font-bold text-white mb-1 group-hover:text-purple-400 transition-colors">Backend Arch</h3>
+                        <p class="text-xs text-zinc-600">Enterprise-grade APIs & microservices with NestJS</p>
+                    </div>
+                    <div class="bg-zinc-950/60 border border-zinc-800/50 rounded-xl p-4 hover:border-purple-900/50 transition-all duration-200 group">
+                        <div class="text-xl mb-2" aria-hidden="true">📱</div>
+                        <h3 class="text-xs font-bold text-white mb-1 group-hover:text-purple-400 transition-colors">Mobile Dev</h3>
+                        <p class="text-xs text-zinc-600">Native Android apps with Kotlin & Java</p>
+                    </div>
+                    <div class="bg-zinc-950/60 border border-zinc-800/50 rounded-xl p-4 hover:border-purple-900/50 transition-all duration-200 group">
+                        <div class="text-xl mb-2" aria-hidden="true">🌐</div>
+                        <h3 class="text-xs font-bold text-white mb-1 group-hover:text-purple-400 transition-colors">Full Stack</h3>
+                        <p class="text-xs text-zinc-600">End-to-end from DB schema to responsive UIs</p>
+                    </div>
+                    <div class="bg-zinc-950/60 border border-zinc-800/50 rounded-xl p-4 hover:border-purple-900/50 transition-all duration-200 group">
+                        <div class="text-xl mb-2" aria-hidden="true">🔐</div>
+                        <h3 class="text-xs font-bold text-white mb-1 group-hover:text-purple-400 transition-colors">API Security</h3>
+                        <p class="text-xs text-zinc-600">Auth systems, CORS policies, Helmet middleware</p>
+                    </div>
+                    <div class="bg-zinc-950/60 border border-zinc-800/50 rounded-xl p-4 hover:border-purple-900/50 transition-all duration-200 group">
+                        <div class="text-xl mb-2" aria-hidden="true">🎨</div>
+                        <h3 class="text-xs font-bold text-white mb-1 group-hover:text-purple-400 transition-colors">UI/UX Design</h3>
+                        <p class="text-xs text-zinc-600">Intuitive, accessible interfaces with modern design</p>
+                    </div>
+                    <div class="bg-zinc-950/60 border border-zinc-800/50 rounded-xl p-4 hover:border-purple-900/50 transition-all duration-200 group">
+                        <div class="text-xl mb-2" aria-hidden="true">🤝</div>
+                        <h3 class="text-xs font-bold text-white mb-1 group-hover:text-purple-400 transition-colors">Open Source</h3>
+                        <p class="text-xs text-zinc-600">Collaborative development & community projects</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- =============================================
+             SKILLS SECTION
+        ============================================= -->
+        <section id="skills" class="mb-28 fade-up" aria-label="Technical skills">
+            <div class="border-b border-zinc-800 pb-3 mb-10">
+                <h2 class="text-xl font-mono font-bold text-white tracking-widest section-header">// TECH_STACK</h2>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+
+                <!-- Programming Languages (with bars) -->
+                <div class="bg-zinc-950/40 border border-zinc-900 rounded-xl p-5 hover:border-purple-900/40 transition-all duration-200">
+                    <h3 class="text-xs font-mono font-bold text-purple-400 mb-4 tracking-widest">LANGUAGES</h3>
+                    <div class="space-y-3">
+                        <div>
+                            <div class="flex justify-between text-xs font-mono mb-1.5">
+                                <span class="text-zinc-300">HTML / CSS</span><span class="text-zinc-600">90%</span>
+                            </div>
+                            <div class="h-1 bg-zinc-800/80 rounded-full overflow-hidden">
+                                <div class="skill-bar-fill" data-width="90" role="progressbar" aria-valuenow="90" aria-valuemin="0" aria-valuemax="100" aria-label="HTML/CSS proficiency 90%"></div>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="flex justify-between text-xs font-mono mb-1.5">
+                                <span class="text-zinc-300">TypeScript</span><span class="text-zinc-600">82%</span>
+                            </div>
+                            <div class="h-1 bg-zinc-800/80 rounded-full overflow-hidden">
+                                <div class="skill-bar-fill" data-width="82" role="progressbar" aria-valuenow="82" aria-valuemin="0" aria-valuemax="100"></div>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="flex justify-between text-xs font-mono mb-1.5">
+                                <span class="text-zinc-300">Java</span><span class="text-zinc-600">78%</span>
+                            </div>
+                            <div class="h-1 bg-zinc-800/80 rounded-full overflow-hidden">
+                                <div class="skill-bar-fill" data-width="78" role="progressbar" aria-valuenow="78" aria-valuemin="0" aria-valuemax="100"></div>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="flex justify-between text-xs font-mono mb-1.5">
+                                <span class="text-zinc-300">Kotlin</span><span class="text-zinc-600">72%</span>
+                            </div>
+                            <div class="h-1 bg-zinc-800/80 rounded-full overflow-hidden">
+                                <div class="skill-bar-fill" data-width="72" role="progressbar" aria-valuenow="72" aria-valuemin="0" aria-valuemax="100"></div>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="flex justify-between text-xs font-mono mb-1.5">
+                                <span class="text-zinc-300">JavaScript</span><span class="text-zinc-600">72%</span>
+                            </div>
+                            <div class="h-1 bg-zinc-800/80 rounded-full overflow-hidden">
+                                <div class="skill-bar-fill" data-width="72" role="progressbar" aria-valuenow="72" aria-valuemin="0" aria-valuemax="100"></div>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="flex justify-between text-xs font-mono mb-1.5">
+                                <span class="text-zinc-300">Python</span><span class="text-zinc-600">55%</span>
+                            </div>
+                            <div class="h-1 bg-zinc-800/80 rounded-full overflow-hidden">
+                                <div class="skill-bar-fill" data-width="55" role="progressbar" aria-valuenow="55" aria-valuemin="0" aria-valuemax="100"></div>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="flex justify-between text-xs font-mono mb-1.5">
+                                <span class="text-zinc-300">Dart</span><span class="text-zinc-600">45%</span>
+                            </div>
+                            <div class="h-1 bg-zinc-800/80 rounded-full overflow-hidden">
+                                <div class="skill-bar-fill" data-width="45" role="progressbar" aria-valuenow="45" aria-valuemin="0" aria-valuemax="100"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Frontend & Mobile -->
+                <div class="bg-zinc-950/40 border border-zinc-900 rounded-xl p-5 hover:border-purple-900/40 transition-all duration-200">
+                    <h3 class="text-xs font-mono font-bold text-purple-400 mb-4 tracking-widest">FRONTEND & MOBILE</h3>
+                    <div class="flex flex-wrap gap-2">
+                        <span class="px-2.5 py-1 text-xs font-mono bg-purple-950/30 border border-purple-900/40 rounded-lg text-purple-300">React</span>
+                        <span class="px-2.5 py-1 text-xs font-mono bg-purple-950/30 border border-purple-900/40 rounded-lg text-purple-300">Tailwind CSS</span>
+                        <span class="px-2.5 py-1 text-xs font-mono bg-purple-950/30 border border-purple-900/40 rounded-lg text-purple-300">Flutter</span>
+                        <span class="px-2.5 py-1 text-xs font-mono bg-purple-950/30 border border-purple-900/40 rounded-lg text-purple-300">Android SDK</span>
+                        <span class="px-2.5 py-1 text-xs font-mono bg-purple-950/30 border border-purple-900/40 rounded-lg text-purple-300">Three.js</span>
+                        <span class="px-2.5 py-1 text-xs font-mono bg-purple-950/30 border border-purple-900/40 rounded-lg text-purple-300">Material Design</span>
+                        <span class="px-2.5 py-1 text-xs font-mono bg-purple-950/30 border border-purple-900/40 rounded-lg text-purple-300">Responsive Design</span>
+                    </div>
+                </div>
+
+                <!-- Backend & APIs -->
+                <div class="bg-zinc-950/40 border border-zinc-900 rounded-xl p-5 hover:border-purple-900/40 transition-all duration-200">
+                    <h3 class="text-xs font-mono font-bold text-purple-400 mb-4 tracking-widest">BACKEND & APIS</h3>
+                    <div class="flex flex-wrap gap-2">
+                        <span class="px-2.5 py-1 text-xs font-mono bg-violet-950/30 border border-violet-900/40 rounded-lg text-violet-300">NestJS</span>
+                        <span class="px-2.5 py-1 text-xs font-mono bg-violet-950/30 border border-violet-900/40 rounded-lg text-violet-300">Node.js</span>
+                        <span class="px-2.5 py-1 text-xs font-mono bg-violet-950/30 border border-violet-900/40 rounded-lg text-violet-300">Express</span>
+                        <span class="px-2.5 py-1 text-xs font-mono bg-violet-950/30 border border-violet-900/40 rounded-lg text-violet-300">REST APIs</span>
+                        <span class="px-2.5 py-1 text-xs font-mono bg-violet-950/30 border border-violet-900/40 rounded-lg text-violet-300">JWT Auth</span>
+                        <span class="px-2.5 py-1 text-xs font-mono bg-violet-950/30 border border-violet-900/40 rounded-lg text-violet-300">Swagger/OpenAPI</span>
+                        <span class="px-2.5 py-1 text-xs font-mono bg-violet-950/30 border border-violet-900/40 rounded-lg text-violet-300">Helmet Security</span>
+                        <span class="px-2.5 py-1 text-xs font-mono bg-violet-950/30 border border-violet-900/40 rounded-lg text-violet-300">CORS</span>
+                    </div>
+                </div>
+
+                <!-- Databases -->
+                <div class="bg-zinc-950/40 border border-zinc-900 rounded-xl p-5 hover:border-purple-900/40 transition-all duration-200">
+                    <h3 class="text-xs font-mono font-bold text-purple-400 mb-4 tracking-widest">DATABASES</h3>
+                    <div class="flex flex-wrap gap-2">
+                        <span class="px-2.5 py-1 text-xs font-mono bg-fuchsia-950/30 border border-fuchsia-900/40 rounded-lg text-fuchsia-300">PostgreSQL</span>
+                        <span class="px-2.5 py-1 text-xs font-mono bg-fuchsia-950/30 border border-fuchsia-900/40 rounded-lg text-fuchsia-300">Oracle SQL</span>
+                        <span class="px-2.5 py-1 text-xs font-mono bg-fuchsia-950/30 border border-fuchsia-900/40 rounded-lg text-fuchsia-300">MongoDB</span>
+                        <span class="px-2.5 py-1 text-xs font-mono bg-fuchsia-950/30 border border-fuchsia-900/40 rounded-lg text-fuchsia-300">Firebase</span>
+                        <span class="px-2.5 py-1 text-xs font-mono bg-fuchsia-950/30 border border-fuchsia-900/40 rounded-lg text-fuchsia-300">SQLite</span>
+                    </div>
+                </div>
+
+                <!-- Tools & DevOps -->
+                <div class="bg-zinc-950/40 border border-zinc-900 rounded-xl p-5 hover:border-purple-900/40 transition-all duration-200">
+                    <h3 class="text-xs font-mono font-bold text-purple-400 mb-4 tracking-widest">TOOLS & DEVOPS</h3>
+                    <div class="flex flex-wrap gap-2">
+                        <span class="px-2.5 py-1 text-xs font-mono bg-zinc-900 border border-zinc-800 rounded-lg text-zinc-300">Git</span>
+                        <span class="px-2.5 py-1 text-xs font-mono bg-zinc-900 border border-zinc-800 rounded-lg text-zinc-300">GitHub</span>
+                        <span class="px-2.5 py-1 text-xs font-mono bg-zinc-900 border border-zinc-800 rounded-lg text-zinc-300">Linux / Bash</span>
+                        <span class="px-2.5 py-1 text-xs font-mono bg-zinc-900 border border-zinc-800 rounded-lg text-zinc-300">Android Studio</span>
+                        <span class="px-2.5 py-1 text-xs font-mono bg-zinc-900 border border-zinc-800 rounded-lg text-zinc-300">VS Code</span>
+                        <span class="px-2.5 py-1 text-xs font-mono bg-zinc-900 border border-zinc-800 rounded-lg text-zinc-300">Figma</span>
+                        <span class="px-2.5 py-1 text-xs font-mono bg-zinc-900/50 border border-dashed border-zinc-700/50 rounded-lg text-zinc-600">Docker ✦ learning</span>
+                    </div>
+                </div>
+
+                <!-- Currently Learning -->
+                <div class="bg-zinc-950/40 border border-zinc-900 rounded-xl p-5 hover:border-purple-900/40 transition-all duration-200">
+                    <h3 class="text-xs font-mono font-bold text-purple-400 mb-4 tracking-widest">LEARNING NOW</h3>
+                    <div class="space-y-2.5">
+                        <div class="flex items-center gap-2 text-xs font-mono text-zinc-400">
+                            <span class="text-purple-500">▸</span> AWS Cloud Infrastructure
+                        </div>
+                        <div class="flex items-center gap-2 text-xs font-mono text-zinc-400">
+                            <span class="text-purple-500">▸</span> Distributed Systems Design
+                        </div>
+                        <div class="flex items-center gap-2 text-xs font-mono text-zinc-400">
+                            <span class="text-purple-500">▸</span> AI / ML Integration
+                        </div>
+                        <div class="flex items-center gap-2 text-xs font-mono text-zinc-400">
+                            <span class="text-purple-500">▸</span> Docker & Kubernetes
+                        </div>
+                        <div class="flex items-center gap-2 text-xs font-mono text-zinc-400">
+                            <span class="text-purple-500">▸</span> GraphQL APIs
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- =============================================
+             PROJECTS SECTION
+        ============================================= -->
+        <section id="projects" class="mb-28 fade-up" aria-label="Featured projects">
+            <div class="border-b border-zinc-800 pb-3 mb-10">
+                <h2 class="text-xl font-mono font-bold text-white tracking-widest section-header">// FEATURED_PROJECTS</h2>
+            </div>
+
+            <!-- Featured Cards -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-7 mb-14">
+
+                <!-- CampusConnect (preserved + enhanced) -->
+                <article class="project-card group bg-zinc-950/60 border border-purple-900/20 rounded-xl p-6 backdrop-blur-sm hover:border-purple-500/40">
+                    <div class="flex items-start justify-between mb-4">
+                        <div class="text-3xl" aria-hidden="true">🎓</div>
+                        <span class="text-xs font-mono text-amber-400 bg-amber-950/30 px-2 py-1 rounded border border-amber-800/30 badge-in-dev">
+                            Active Arch Phase
+                        </span>
+                    </div>
+                    <h3 class="text-lg font-bold text-white mb-2 group-hover:text-purple-400 transition-colors">CampusConnect REST API</h3>
+                    <p class="text-sm text-zinc-400 mb-4 leading-relaxed">
+                        A modular, production-ready backend API driving a Student Social Super-App, tightly integrated with the custom Kabarak Nest Accommodation listing and booking infrastructure.
+                    </p>
+                    <ul class="space-y-1 mb-5" aria-label="Project features">
+                        <li class="text-xs font-mono text-zinc-500 flex items-start gap-2"><span class="text-purple-500 mt-0.5">✓</span> Social Feed, Profiles & Social Graph modules</li>
+                        <li class="text-xs font-mono text-zinc-500 flex items-start gap-2"><span class="text-purple-500 mt-0.5">✓</span> In-App Notifications & Live Messaging</li>
+                        <li class="text-xs font-mono text-zinc-500 flex items-start gap-2"><span class="text-purple-500 mt-0.5">✓</span> Helmet Security + global validation + CORS</li>
+                        <li class="text-xs font-mono text-zinc-500 flex items-start gap-2"><span class="text-purple-500 mt-0.5">✓</span> Gamification: Points, Badges, Leaderboards</li>
+                        <li class="text-xs font-mono text-zinc-500 flex items-start gap-2"><span class="text-purple-500 mt-0.5">✓</span> Auto-generated Swagger/OpenAPI docs</li>
+                    </ul>
+                    <div class="mb-5 flex flex-wrap gap-1.5">
+                        <span class="px-2 py-0.5 text-xs font-mono bg-zinc-900 border border-zinc-800 rounded text-zinc-400">NestJS</span>
+                        <span class="px-2 py-0.5 text-xs font-mono bg-zinc-900 border border-zinc-800 rounded text-zinc-400">TypeScript</span>
+                        <span class="px-2 py-0.5 text-xs font-mono bg-zinc-900 border border-zinc-800 rounded text-zinc-400">Swagger UI</span>
+                        <span class="px-2 py-0.5 text-xs font-mono bg-zinc-900 border border-zinc-800 rounded text-zinc-400">Helmet</span>
+                    </div>
+                    <a href="https://github.com/jacksonr-cell/campusconnect-api" target="_blank" rel="noopener noreferrer"
+                        class="inline-flex items-center gap-1.5 text-xs font-mono text-purple-400 hover:text-purple-300 transition-colors group/link">
+                        <svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 0C5.374 0 0 5.373 0 12c0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23A11.509 11.509 0 0112 5.803c1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576C20.566 21.797 24 17.3 24 12c0-6.627-5.373-12-12-12z"/></svg>
+                        Analyze Repository
+                        <span class="group-hover/link:translate-x-1 transition-transform inline-block">→</span>
+                    </a>
+                </article>
+
+                <!-- Kabarak Nest -->
+                <article class="project-card group bg-zinc-950/60 border border-purple-900/20 rounded-xl p-6 backdrop-blur-sm hover:border-purple-500/40">
+                    <div class="flex items-start justify-between mb-4">
+                        <div class="text-3xl" aria-hidden="true">🏠</div>
+                        <span class="text-xs font-mono text-amber-400 bg-amber-950/30 px-2 py-1 rounded border border-amber-800/30 badge-in-dev">
+                            In Development
+                        </span>
+                    </div>
+                    <h3 class="text-lg font-bold text-white mb-2 group-hover:text-purple-400 transition-colors">Kabarak Nest Accommodation</h3>
+                    <p class="text-sm text-zinc-400 mb-4 leading-relaxed">
+                        A student accommodation marketplace connecting students near Kabarak University with verified landlord listings — featuring smart filtering, a landlord dashboard, and a modern responsive UI.
+                    </p>
+                    <ul class="space-y-1 mb-5">
+                        <li class="text-xs font-mono text-zinc-500 flex items-start gap-2"><span class="text-purple-500 mt-0.5">✓</span> Smart filtering & verified listing system</li>
+                        <li class="text-xs font-mono text-zinc-500 flex items-start gap-2"><span class="text-purple-500 mt-0.5">✓</span> Landlord property management dashboard</li>
+                        <li class="text-xs font-mono text-zinc-500 flex items-start gap-2"><span class="text-zinc-700 mt-0.5">◎</span> Reviews, ratings & messaging (planned)</li>
+                        <li class="text-xs font-mono text-zinc-500 flex items-start gap-2"><span class="text-zinc-700 mt-0.5">◎</span> Maps integration (planned)</li>
+                    </ul>
+                    <div class="mb-5 flex flex-wrap gap-1.5">
+                        <span class="px-2 py-0.5 text-xs font-mono bg-zinc-900 border border-zinc-800 rounded text-zinc-400">React</span>
+                        <span class="px-2 py-0.5 text-xs font-mono bg-zinc-900 border border-zinc-800 rounded text-zinc-400">Tailwind CSS</span>
+                        <span class="px-2 py-0.5 text-xs font-mono bg-zinc-900 border border-zinc-800 rounded text-zinc-400">NestJS</span>
+                        <span class="px-2 py-0.5 text-xs font-mono bg-zinc-900 border border-zinc-800 rounded text-zinc-400">PostgreSQL</span>
+                    </div>
+                    <a href="https://github.com/Jacksonr-cell" target="_blank" rel="noopener noreferrer"
+                        class="inline-flex items-center gap-1.5 text-xs font-mono text-purple-400 hover:text-purple-300 transition-colors group/link">
+                        <svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 0C5.374 0 0 5.373 0 12c0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23A11.509 11.509 0 0112 5.803c1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576C20.566 21.797 24 17.3 24 12c0-6.627-5.373-12-12-12z"/></svg>
+                        View Repository
+                        <span class="group-hover/link:translate-x-1 transition-transform inline-block">→</span>
+                    </a>
+                </article>
+
+                <!-- Task Manager App (preserved + enhanced) -->
+                <article class="project-card group bg-zinc-950/60 border border-purple-900/20 rounded-xl p-6 backdrop-blur-sm hover:border-purple-500/40">
+                    <div class="flex items-start justify-between mb-4">
+                        <div class="text-3xl" aria-hidden="true">📋</div>
+                        <span class="text-xs font-mono text-green-400 bg-green-950/30 px-2 py-1 rounded border border-green-800/30">Complete</span>
+                    </div>
+                    <h3 class="text-lg font-bold text-white mb-2 group-hover:text-purple-400 transition-colors">Task Manager App</h3>
+                    <p class="text-sm text-zinc-400 mb-4 leading-relaxed">
+                        A high-utility Android application architected to structure schedule workflows, enforce priority sorting, and maximize productivity within a lightweight client layout.
+                    </p>
+                    <ul class="space-y-1 mb-5">
+                        <li class="text-xs font-mono text-zinc-500 flex items-start gap-2"><span class="text-purple-500 mt-0.5">✓</span> Priority-based task sorting with color indicators</li>
+                        <li class="text-xs font-mono text-zinc-500 flex items-start gap-2"><span class="text-purple-500 mt-0.5">✓</span> SharedPreferences + JSON local persistence</li>
+                        <li class="text-xs font-mono text-zinc-500 flex items-start gap-2"><span class="text-purple-500 mt-0.5">✓</span> RecyclerView with Material Design components</li>
+                        <li class="text-xs font-mono text-zinc-500 flex items-start gap-2"><span class="text-purple-500 mt-0.5">✓</span> Background lifecycle handling</li>
+                    </ul>
+                    <div class="mb-5 flex flex-wrap gap-1.5">
+                        <span class="px-2 py-0.5 text-xs font-mono bg-zinc-900 border border-zinc-800 rounded text-zinc-400">Kotlin</span>
+                        <span class="px-2 py-0.5 text-xs font-mono bg-zinc-900 border border-zinc-800 rounded text-zinc-400">Java</span>
+                        <span class="px-2 py-0.5 text-xs font-mono bg-zinc-900 border border-zinc-800 rounded text-zinc-400">Android Studio</span>
+                        <span class="px-2 py-0.5 text-xs font-mono bg-zinc-900 border border-zinc-800 rounded text-zinc-400">Material Design</span>
+                    </div>
+                    <a href="https://github.com/Jacksonr-cell" target="_blank" rel="noopener noreferrer"
+                        class="inline-flex items-center gap-1.5 text-xs font-mono text-purple-400 hover:text-purple-300 transition-colors group/link">
+                        <svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 0C5.374 0 0 5.373 0 12c0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23A11.509 11.509 0 0112 5.803c1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576C20.566 21.797 24 17.3 24 12c0-6.627-5.373-12-12-12z"/></svg>
+                        View Application Source
+                        <span class="group-hover/link:translate-x-1 transition-transform inline-block">→</span>
+                    </a>
+                </article>
+
+                <!-- Portfolio Website -->
+                <article class="project-card group bg-zinc-950/60 border border-purple-900/20 rounded-xl p-6 backdrop-blur-sm hover:border-purple-500/40">
+                    <div class="flex items-start justify-between mb-4">
+                        <div class="text-3xl" aria-hidden="true">💼</div>
+                        <span class="text-xs font-mono text-green-400 bg-green-950/30 px-2 py-1 rounded border border-green-800/30">Live</span>
+                    </div>
+                    <h3 class="text-lg font-bold text-white mb-2 group-hover:text-purple-400 transition-colors">Developer Portfolio</h3>
+                    <p class="text-sm text-zinc-400 mb-4 leading-relaxed">
+                        This portfolio website — built with modern web technologies, an interactive Three.js particle matrix background, scroll-triggered animations, and a professional dark developer aesthetic.
+                    </p>
+                    <ul class="space-y-1 mb-5">
+                        <li class="text-xs font-mono text-zinc-500 flex items-start gap-2"><span class="text-purple-500 mt-0.5">✓</span> Interactive Three.js 3D particle background</li>
+                        <li class="text-xs font-mono text-zinc-500 flex items-start gap-2"><span class="text-purple-500 mt-0.5">✓</span> Typing effect, fade-up & skill bar animations</li>
+                        <li class="text-xs font-mono text-zinc-500 flex items-start gap-2"><span class="text-purple-500 mt-0.5">✓</span> Fully responsive, accessible markup</li>
+                        <li class="text-xs font-mono text-zinc-500 flex items-start gap-2"><span class="text-purple-500 mt-0.5">✓</span> SEO-optimized & performance-tuned</li>
+                    </ul>
+                    <div class="mb-5 flex flex-wrap gap-1.5">
+                        <span class="px-2 py-0.5 text-xs font-mono bg-zinc-900 border border-zinc-800 rounded text-zinc-400">HTML5</span>
+                        <span class="px-2 py-0.5 text-xs font-mono bg-zinc-900 border border-zinc-800 rounded text-zinc-400">Tailwind CSS</span>
+                        <span class="px-2 py-0.5 text-xs font-mono bg-zinc-900 border border-zinc-800 rounded text-zinc-400">Three.js</span>
+                        <span class="px-2 py-0.5 text-xs font-mono bg-zinc-900 border border-zinc-800 rounded text-zinc-400">Vanilla JS</span>
+                    </div>
+                    <a href="https://github.com/jacksonr-cell/Jacksonr-cell.github.io" target="_blank" rel="noopener noreferrer"
+                        class="inline-flex items-center gap-1.5 text-xs font-mono text-purple-400 hover:text-purple-300 transition-colors group/link">
+                        <svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 0C5.374 0 0 5.373 0 12c0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23A11.509 11.509 0 0112 5.803c1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576C20.566 21.797 24 17.3 24 12c0-6.627-5.373-12-12-12z"/></svg>
+                        View Source
+                        <span class="group-hover/link:translate-x-1 transition-transform inline-block">→</span>
+                    </a>
+                </article>
+            </div>
+
+            <!-- Future Projects -->
+            <div class="border-b border-zinc-800/50 pb-3 mb-8">
+                <h3 class="text-sm font-mono font-bold text-zinc-500 tracking-widest">
+                    // FUTURE_PROJECTS
+                    <span class="text-zinc-700 font-normal ml-2">— currently in development or planning</span>
+                </h3>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                <div class="bg-zinc-950/25 border border-dashed border-zinc-800/60 rounded-xl p-5 opacity-70 hover:opacity-100 transition-opacity duration-200 group">
+                    <div class="flex justify-between items-start mb-3">
+                        <span class="text-2xl" aria-hidden="true">🤖</span>
+                        <span class="text-xs font-mono text-blue-400 bg-blue-950/25 px-2 py-0.5 rounded border border-blue-900/30">In Development</span>
+                    </div>
+                    <h4 class="text-sm font-bold text-zinc-300 mb-1.5 group-hover:text-white transition-colors">AI Study Assistant</h4>
+                    <p class="text-xs text-zinc-600 leading-relaxed">Intelligent academic companion powered by AI to organize study materials and generate adaptive practice content.</p>
+                </div>
+
+                <div class="bg-zinc-950/25 border border-dashed border-zinc-800/60 rounded-xl p-5 opacity-70 hover:opacity-100 transition-opacity duration-200 group">
+                    <div class="flex justify-between items-start mb-3">
+                        <span class="text-2xl" aria-hidden="true">🏫</span>
+                        <span class="text-xs font-mono text-blue-400 bg-blue-950/25 px-2 py-0.5 rounded border border-blue-900/30">In Development</span>
+                    </div>
+                    <h4 class="text-sm font-bold text-zinc-300 mb-1.5 group-hover:text-white transition-colors">University Management System</h4>
+                    <p class="text-xs text-zinc-600 leading-relaxed">Comprehensive ERP for academic institutions with multi-role access control and full module coverage.</p>
+                </div>
+
+                <div class="bg-zinc-950/25 border border-dashed border-zinc-800/60 rounded-xl p-5 opacity-70 hover:opacity-100 transition-opacity duration-200 group">
+                    <div class="flex justify-between items-start mb-3">
+                        <span class="text-2xl" aria-hidden="true">📅</span>
+                        <span class="text-xs font-mono text-zinc-600 bg-zinc-900/30 px-2 py-0.5 rounded border border-zinc-800/50">Planned</span>
+                    </div>
+                    <h4 class="text-sm font-bold text-zinc-300 mb-1.5 group-hover:text-white transition-colors">Campus Event Platform</h4>
+                    <p class="text-xs text-zinc-600 leading-relaxed">Full-stack event management for campus communities — announcements, RSVPs, and attendance tracking.</p>
+                </div>
+
+                <div class="bg-zinc-950/25 border border-dashed border-zinc-800/60 rounded-xl p-5 opacity-70 hover:opacity-100 transition-opacity duration-200 group">
+                    <div class="flex justify-between items-start mb-3">
+                        <span class="text-2xl" aria-hidden="true">🏆</span>
+                        <span class="text-xs font-mono text-zinc-600 bg-zinc-900/30 px-2 py-0.5 rounded border border-zinc-800/50">Planned</span>
+                    </div>
+                    <h4 class="text-sm font-bold text-zinc-300 mb-1.5 group-hover:text-white transition-colors">Sports Recognition Platform</h4>
+                    <p class="text-xs text-zinc-600 leading-relaxed">Achievement tracking and recognition system for student athletes and university sports teams.</p>
+                </div>
+
+                <div class="bg-zinc-950/25 border border-dashed border-zinc-800/60 rounded-xl p-5 opacity-70 hover:opacity-100 transition-opacity duration-200 group">
+                    <div class="flex justify-between items-start mb-3">
+                        <span class="text-2xl" aria-hidden="true">🛒</span>
+                        <span class="text-xs font-mono text-zinc-600 bg-zinc-900/30 px-2 py-0.5 rounded border border-zinc-800/50">Planned</span>
+                    </div>
+                    <h4 class="text-sm font-bold text-zinc-300 mb-1.5 group-hover:text-white transition-colors">Modern E-Commerce Platform</h4>
+                    <p class="text-xs text-zinc-600 leading-relaxed">Full-featured marketplace with payment integration, inventory management, and real-time order tracking.</p>
+                </div>
+
+                <div class="bg-zinc-950/25 border border-dashed border-zinc-800/60 rounded-xl p-5 opacity-70 hover:opacity-100 transition-opacity duration-200 group">
+                    <div class="flex justify-between items-start mb-3">
+                        <span class="text-2xl" aria-hidden="true">📱</span>
+                        <span class="text-xs font-mono text-zinc-600 bg-zinc-900/30 px-2 py-0.5 rounded border border-zinc-800/50">Planned</span>
+                    </div>
+                    <h4 class="text-sm font-bold text-zinc-300 mb-1.5 group-hover:text-white transition-colors">Mobile Productivity App</h4>
+                    <p class="text-xs text-zinc-600 leading-relaxed">Cross-platform mobile application with offline-first architecture and seamless cloud sync.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- =============================================
+             EXPERIENCE / JOURNEY SECTION
+        ============================================= -->
+        <section id="experience" class="mb-28 fade-up" aria-label="Development journey">
+            <div class="border-b border-zinc-800 pb-3 mb-10">
+                <h2 class="text-xl font-mono font-bold text-white tracking-widest section-header">// DEV_JOURNEY</h2>
+            </div>
+
+            <div class="relative pl-6 border-l border-zinc-800/60 space-y-7">
+
+                <div class="timeline-dot relative">
+                    <div class="bg-zinc-950/60 border border-zinc-800/50 rounded-xl p-5 ml-2 hover:border-purple-900/40 transition-all duration-200">
+                        <div class="flex flex-wrap items-start justify-between gap-2 mb-2">
+                            <h3 class="font-bold text-white text-sm">Backend Architecture · CampusConnect</h3>
+                            <span class="text-xs font-mono text-purple-400 bg-purple-950/30 px-2 py-0.5 rounded">2024 — Present</span>
+                        </div>
+                        <p class="text-sm text-zinc-400 leading-relaxed">
+                            Designing and implementing production-grade NestJS infrastructure. Building modular APIs with security middleware, OpenAPI documentation, and a full student social ecosystem — social feed, gamification, marketplace, messaging, and accommodation booking.
+                        </p>
+                        <div class="mt-3 flex flex-wrap gap-1.5">
+                            <span class="text-xs font-mono text-zinc-500 bg-zinc-900 px-2 py-0.5 rounded">NestJS</span>
+                            <span class="text-xs font-mono text-zinc-500 bg-zinc-900 px-2 py-0.5 rounded">TypeScript</span>
+                            <span class="text-xs font-mono text-zinc-500 bg-zinc-900 px-2 py-0.5 rounded">REST API Design</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="timeline-dot relative">
+                    <div class="bg-zinc-950/60 border border-zinc-800/50 rounded-xl p-5 ml-2 hover:border-purple-900/40 transition-all duration-200">
+                        <div class="flex flex-wrap items-start justify-between gap-2 mb-2">
+                            <h3 class="font-bold text-white text-sm">Mobile Development · Android Applications</h3>
+                            <span class="text-xs font-mono text-purple-400 bg-purple-950/30 px-2 py-0.5 rounded">2023 — Present</span>
+                        </div>
+                        <p class="text-sm text-zinc-400 leading-relaxed">
+                            Built native Android applications using Java and Kotlin in Android Studio. Implemented local persistence with SharedPreferences + JSON, RecyclerView, Material Design patterns, and lifecycle-aware components for smooth, efficient UX.
+                        </p>
+                        <div class="mt-3 flex flex-wrap gap-1.5">
+                            <span class="text-xs font-mono text-zinc-500 bg-zinc-900 px-2 py-0.5 rounded">Kotlin</span>
+                            <span class="text-xs font-mono text-zinc-500 bg-zinc-900 px-2 py-0.5 rounded">Java</span>
+                            <span class="text-xs font-mono text-zinc-500 bg-zinc-900 px-2 py-0.5 rounded">Android SDK</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="timeline-dot relative">
+                    <div class="bg-zinc-950/60 border border-zinc-800/50 rounded-xl p-5 ml-2 hover:border-purple-900/40 transition-all duration-200">
+                        <div class="flex flex-wrap items-start justify-between gap-2 mb-2">
+                            <h3 class="font-bold text-white text-sm">Academic Projects · Kabarak University</h3>
+                            <span class="text-xs font-mono text-purple-400 bg-purple-950/30 px-2 py-0.5 rounded">2023 — Present</span>
+                        </div>
+                        <p class="text-sm text-zinc-400 leading-relaxed">
+                            Applying software engineering principles across coursework — covering all nine SDLC models, IT Security (CIA triad, MFA, Zero-Day vulnerabilities, RBAC), database design, and CMS architecture. Bridging classroom theory with real-world project work.
+                        </p>
+                        <div class="mt-3 flex flex-wrap gap-1.5">
+                            <span class="text-xs font-mono text-zinc-500 bg-zinc-900 px-2 py-0.5 rounded">Software Engineering</span>
+                            <span class="text-xs font-mono text-zinc-500 bg-zinc-900 px-2 py-0.5 rounded">IT Security</span>
+                            <span class="text-xs font-mono text-zinc-500 bg-zinc-900 px-2 py-0.5 rounded">Database Design</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="timeline-dot relative">
+                    <div class="bg-zinc-950/60 border border-zinc-800/50 rounded-xl p-5 ml-2 hover:border-purple-900/40 transition-all duration-200">
+                        <div class="flex flex-wrap items-start justify-between gap-2 mb-2">
+                            <h3 class="font-bold text-white text-sm">Web Development & System Foundations</h3>
+                            <span class="text-xs font-mono text-purple-400 bg-purple-950/30 px-2 py-0.5 rounded">2022 — 2023</span>
+                        </div>
+                        <p class="text-sm text-zinc-400 leading-relaxed">
+                            Started the development journey with HTML, CSS, and JavaScript fundamentals — quickly expanding into backend development, SQL database architecture, and Linux system administration. Built initial full-stack projects and developed a passion for clean, scalable code.
+                        </p>
+                        <div class="mt-3 flex flex-wrap gap-1.5">
+                            <span class="text-xs font-mono text-zinc-500 bg-zinc-900 px-2 py-0.5 rounded">HTML / CSS / JS</span>
+                            <span class="text-xs font-mono text-zinc-500 bg-zinc-900 px-2 py-0.5 rounded">Linux</span>
+                            <span class="text-xs font-mono text-zinc-500 bg-zinc-900 px-2 py-0.5 rounded">Git</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- =============================================
+             GITHUB STATS SECTION
+        ============================================= -->
+        <section id="github" class="mb-28 fade-up" aria-label="GitHub statistics">
+            <div class="border-b border-zinc-800 pb-3 mb-10">
+                <h2 class="text-xl font-mono font-bold text-white tracking-widest section-header">// GITHUB_STATS</h2>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-5 mb-5">
+                <div class="bg-zinc-950/40 border border-zinc-900 rounded-xl overflow-hidden flex items-center justify-center min-h-[160px] p-3">
+                    <img
+                        src="https://github-readme-stats.vercel.app/api?username=Jacksonr-cell&show_icons=true&theme=radical&bg_color=09090b&title_color=a855f7&text_color=a1a1aa&icon_color=8b5cf6&border_color=27272a"
+                        alt="Jackson Rotich GitHub statistics"
+                        class="rounded-lg w-full"
+                        loading="lazy"
+                        onerror="this.parentElement.innerHTML='<p class=\'text-xs font-mono text-zinc-600 text-center p-4\'>GitHub stats will load when deployed online.<br><a href=\'https://github.com/Jacksonr-cell\' class=\'text-purple-700 hover:text-purple-500\' target=\'_blank\'>→ View Profile</a></p>'"
+                    />
+                </div>
+                <div class="bg-zinc-950/40 border border-zinc-900 rounded-xl overflow-hidden flex items-center justify-center min-h-[160px] p-3">
+                    <img
+                        src="https://github-readme-streak-stats.herokuapp.com/?user=Jacksonr-cell&theme=radical&background=09090b&ring=a855f7&fire=d946ef&currStreakLabel=a855f7&border=27272a"
+                        alt="Jackson Rotich GitHub contribution streak"
+                        class="rounded-lg w-full"
+                        loading="lazy"
+                        onerror="this.parentElement.innerHTML='<p class=\'text-xs font-mono text-zinc-600 text-center p-4\'>Streak stats will load when deployed online.</p>'"
+                    />
+                </div>
+            </div>
+            <div class="bg-zinc-950/40 border border-zinc-900 rounded-xl overflow-hidden flex items-center justify-center min-h-[130px] p-3 mb-6">
+                <img
+                    src="https://github-readme-stats.vercel.app/api/top-langs/?username=Jacksonr-cell&layout=compact&theme=radical&bg_color=09090b&title_color=a855f7&text_color=a1a1aa&border_color=27272a"
+                    alt="Jackson Rotich top programming languages"
+                    class="rounded-lg max-w-md w-full"
+                    loading="lazy"
+                    onerror="this.parentElement.innerHTML='<p class=\'text-xs font-mono text-zinc-600 text-center p-4\'>Language stats will load when deployed online.</p>'"
+                />
+            </div>
+
+            <div class="text-center">
+                <a href="https://github.com/Jacksonr-cell" target="_blank" rel="noopener noreferrer"
+                    class="inline-flex items-center gap-2 px-5 py-2.5 font-mono text-sm text-purple-400 border border-purple-800/50 hover:border-purple-500 hover:text-purple-300 rounded-lg transition-all duration-200 hover:-translate-y-0.5">
+                    <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 0C5.374 0 0 5.373 0 12c0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23A11.509 11.509 0 0112 5.803c1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576C20.566 21.797 24 17.3 24 12c0-6.627-5.373-12-12-12z"/></svg>
+                    View Full GitHub Profile →
+                </a>
+            </div>
+        </section>
+
+        <!-- =============================================
+             CONTACT SECTION
+        ============================================= -->
+        <section id="contact" class="mb-16 fade-up" aria-label="Contact information">
+            <div class="border-b border-zinc-800 pb-3 mb-10">
+                <h2 class="text-xl font-mono font-bold text-white tracking-widest section-header">// GET_IN_TOUCH</h2>
+            </div>
+
+            <div class="bg-zinc-950/40 border border-zinc-900 rounded-2xl p-8 md:p-12 text-center space-y-6">
+                <h3 class="text-2xl md:text-3xl font-black text-white leading-tight">
+                    Let's Build Something <span class="gradient-text">Great Together</span>
+                </h3>
+                <p class="text-zinc-400 max-w-lg mx-auto leading-relaxed text-sm">
+                    I'm open to internship opportunities, collaboration, open-source contributions, and project discussions.
+                    Send me a message directly or explore my work on GitHub.
+                </p>
+
+                <div class="flex flex-wrap gap-3 justify-center pt-2">
+                    <a href="https://github.com/Jacksonr-cell" target="_blank" rel="noopener noreferrer"
+                        class="flex items-center gap-2 px-6 py-3 bg-purple-700 hover:bg-purple-600 text-white font-mono text-sm rounded-lg shadow-lg shadow-purple-900/40 transition-all duration-200 hover:-translate-y-0.5">
+                        <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 0C5.374 0 0 5.373 0 12c0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23A11.509 11.509 0 0112 5.803c1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576C20.566 21.797 24 17.3 24 12c0-6.627-5.373-12-12-12z"/></svg>
+                        GitHub Profile
+                    </a>
+                    <a href="mailto:JACKSONKIPCHUMBA001@gmail.com" aria-label="Send an email"
+                        class="flex items-center gap-2 px-6 py-3 bg-zinc-800 hover:bg-zinc-700 text-zinc-200 font-mono text-sm rounded-lg transition-all duration-200 hover:-translate-y-0.5">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
+                        </svg>
+                        Send Email
+                    </a>
+                </div>
+
+                <form id="contact-form" class="max-w-2xl mx-auto text-left grid gap-4 pt-5" novalidate>
+                    <div class="grid sm:grid-cols-2 gap-4">
+                        <label class="grid gap-1.5 text-xs font-mono text-zinc-400">Your name
+                            <input name="name" autocomplete="name" required minlength="2" maxlength="100" class="w-full rounded-lg border border-zinc-800 bg-zinc-900 px-3 py-2.5 text-sm text-white focus:border-purple-500 focus:outline-none focus:ring-2 focus:ring-purple-500/30" />
+                        </label>
+                        <label class="grid gap-1.5 text-xs font-mono text-zinc-400">Your email
+                            <input name="email" type="email" autocomplete="email" required maxlength="254" class="w-full rounded-lg border border-zinc-800 bg-zinc-900 px-3 py-2.5 text-sm text-white focus:border-purple-500 focus:outline-none focus:ring-2 focus:ring-purple-500/30" />
+                        </label>
+                    </div>
+                    <label class="grid gap-1.5 text-xs font-mono text-zinc-400">Message
+                        <textarea name="message" required minlength="10" maxlength="5000" rows="5" class="w-full resize-y rounded-lg border border-zinc-800 bg-zinc-900 px-3 py-2.5 text-sm text-white focus:border-purple-500 focus:outline-none focus:ring-2 focus:ring-purple-500/30"></textarea>
+                    </label>
+                    <label class="hidden" aria-hidden="true">Leave this field empty<input name="website" tabindex="-1" autocomplete="off"></label>
+                    <div class="flex flex-wrap items-center gap-4">
+                        <button id="contact-submit" type="submit" class="px-6 py-3 bg-purple-700 hover:bg-purple-600 disabled:opacity-60 text-white font-mono text-sm rounded-lg transition-colors focus:outline-none focus:ring-2 focus:ring-purple-400">Send message</button>
+                        <p id="contact-status" class="text-sm text-zinc-400" role="status" aria-live="polite"></p>
+                    </div>
+                </form>
+
+                <p class="text-xs text-zinc-500">Prefer email? <a class="text-purple-400 hover:text-purple-300" href="mailto:JACKSONKIPCHUMBA001@gmail.com">JACKSONKIPCHUMBA001@gmail.com</a></p>
+
+                <div class="flex flex-wrap justify-center gap-5 pt-4 border-t border-zinc-800/40 text-xs font-mono">
+                    <span class="text-zinc-600">📍 Nakuru, Kenya</span>
+                    <span class="text-zinc-600">🎓 Kabarak University</span>
+                    <span class="text-green-600 flex items-center gap-1.5">
+                        <span class="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse"></span>
+                        Available for Opportunities
+                    </span>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- =========================================
+         FOOTER
+    ========================================= -->
+    <footer class="border-t border-zinc-900/60 py-8 px-6 relative z-10" role="contentinfo">
+        <div class="max-w-5xl mx-auto space-y-4 text-center">
+            <div class="flex flex-wrap justify-center gap-5 text-xs font-mono text-zinc-700">
+                <a href="#about"      class="hover:text-purple-600 transition-colors">about</a>
+                <a href="#skills"     class="hover:text-purple-600 transition-colors">skills</a>
+                <a href="#projects"   class="hover:text-purple-600 transition-colors">projects</a>
+                <a href="#experience" class="hover:text-purple-600 transition-colors">journey</a>
+                <a href="#contact"    class="hover:text-purple-600 transition-colors">contact</a>
+                <a href="https://github.com/Jacksonr-cell" target="_blank" rel="noopener noreferrer" class="hover:text-purple-600 transition-colors">github</a>
+            </div>
+            <p class="text-xs font-mono text-zinc-800">
+                © 2024 <span class="text-purple-900">Jackson Rotich</span> · Built with HTML5, Tailwind CSS & Three.js
+            </p>
+        </div>
+    </footer>
+
+    <!-- =========================================
+         SCRIPTS
+    ========================================= -->
+    <script>
+        // ============================================
+        // THREE.JS 3D BACKGROUND — preserved from original
+        // ============================================
+        const canvas = document.getElementById('bg-canvas');
+        if (canvas && window.THREE) {
+        try {
+        const scene  = new THREE.Scene();
+
+        const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+        camera.position.z = 5;
+
+        const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true });
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+
+        const particleCount = 750;
+        const geometry      = new THREE.BufferGeometry();
+        const positions     = new Float32Array(particleCount * 3);
+
+        for (let i = 0; i < particleCount * 3; i += 3) {
+            positions[i]     = (Math.random() - 0.5) * 12;
+            positions[i + 1] = (Math.random() - 0.5) * 12;
+            positions[i + 2] = (Math.random() - 0.5) * 10;
+        }
+        geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+
+        const material = new THREE.PointsMaterial({
+            size: 0.035,
+            color: 0x8b5cf6,
+            transparent: true,
+            opacity: 0.6,
+            blending: THREE.AdditiveBlending
+        });
+
+        const particleMesh = new THREE.Points(geometry, material);
+        scene.add(particleMesh);
+
+        let mouseX = 0, mouseY = 0;
+        document.addEventListener('mousemove', (e) => {
+            mouseX = (e.clientX / window.innerWidth)  - 0.5;
+            mouseY = (e.clientY / window.innerHeight) - 0.5;
+        });
+
+        const clock = new THREE.Clock();
+        (function animate() {
+            const t = clock.getElapsedTime();
+            particleMesh.rotation.y = t * 0.04;
+            particleMesh.rotation.x = t * 0.02;
+            particleMesh.position.x += (mouseX * 0.5 - particleMesh.position.x) * 0.05;
+            particleMesh.position.y += (-mouseY * 0.5 - particleMesh.position.y) * 0.05;
+            renderer.render(scene, camera);
+            requestAnimationFrame(animate);
+        })();
+
+        window.addEventListener('resize', () => {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        });
+        } catch (error) {
+            console.warn('Animated background is unavailable in this browser.', error);
+        }
+        }
+
+        // ============================================
+        // LOADING SCREEN
+        // ============================================
+        window.addEventListener('load', () => {
+            const ls = document.getElementById('loading-screen');
+            setTimeout(() => {
+                ls.style.opacity = '0';
+                setTimeout(() => { ls.style.display = 'none'; }, 600);
+            }, 1100);
+        });
+
+        // ============================================
+        // TYPING EFFECT
+        // ============================================
+        const roles = [
+            'Full-Stack Developer',
+            'Backend Architect',
+            'Android Developer',
+            'TypeScript Engineer',
+            'Open Source Contributor',
+            'Problem Solver'
+        ];
+        let roleIndex = 0, charIndex = 0, isDeleting = false;
+        const typingEl = document.getElementById('typing-text');
+
+        function typeEffect() {
+            const current = roles[roleIndex];
+            typingEl.textContent = isDeleting
+                ? current.substring(0, charIndex - 1)
+                : current.substring(0, charIndex + 1);
+
+            isDeleting ? charIndex-- : charIndex++;
+
+            if (!isDeleting && charIndex === current.length) {
+                setTimeout(() => { isDeleting = true; }, 1800);
+            } else if (isDeleting && charIndex === 0) {
+                isDeleting = false;
+                roleIndex  = (roleIndex + 1) % roles.length;
+            }
+            setTimeout(typeEffect, isDeleting ? 42 : 105);
+        }
+        typeEffect();
+
+        // ============================================
+        // SCROLL PROGRESS BAR + SCROLL-TO-TOP
+        // ============================================
+        const progressBar  = document.getElementById('scroll-progress');
+        const scrollTopBtn = document.getElementById('scroll-top');
+
+        window.addEventListener('scroll', () => {
+            const pct = (window.scrollY / (document.documentElement.scrollHeight - window.innerHeight)) * 100;
+            progressBar.style.width = pct + '%';
+            scrollTopBtn.classList.toggle('visible', window.scrollY > 480);
+        }, { passive: true });
+
+        // ============================================
+        // FADE-UP ON SCROLL (IntersectionObserver)
+        // ============================================
+        const fadeObserver = new IntersectionObserver((entries) => {
+            entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+        }, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' });
+
+        document.querySelectorAll('.fade-up').forEach(el => fadeObserver.observe(el));
+
+        // ============================================
+        // SKILL BARS (IntersectionObserver)
+        // ============================================
+        const skillObserver = new IntersectionObserver((entries) => {
+            entries.forEach(e => {
+                if (e.isIntersecting) {
+                    e.target.style.width = e.target.dataset.width + '%';
+                    skillObserver.unobserve(e.target);
+                }
+            });
+        }, { threshold: 0.6 });
+
+        document.querySelectorAll('.skill-bar-fill').forEach(b => skillObserver.observe(b));
+
+        // ============================================
+        // MOBILE MENU TOGGLE
+        // ============================================
+        const mobileBtn  = document.getElementById('mobile-menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+        const hamOpen    = document.getElementById('ham-open');
+        const hamClose   = document.getElementById('ham-close');
+
+        mobileBtn.addEventListener('click', () => {
+            const isOpen = mobileMenu.classList.toggle('open');
+            mobileBtn.setAttribute('aria-expanded', String(isOpen));
+            hamOpen .classList.toggle('hidden', isOpen);
+            hamClose.classList.toggle('hidden', !isOpen);
+        });
+
+        document.querySelectorAll('#mobile-menu a').forEach(link => {
+            link.addEventListener('click', () => {
+                mobileMenu.classList.remove('open');
+                mobileBtn.setAttribute('aria-expanded', 'false');
+                hamOpen .classList.remove('hidden');
+                hamClose.classList.add('hidden');
+            });
+        });
+
+        // ============================================
+        // DARK / LIGHT MODE TOGGLE
+        // ============================================
+        let isDark = true;
+
+        function applyTheme() {
+            document.documentElement.classList.toggle('light-mode', !isDark);
+            const icon = isDark ? '🌙' : '☀️';
+            document.getElementById('theme-icon').textContent        = icon;
+            document.getElementById('theme-icon-mobile').textContent = icon;
+        }
+
+        document.getElementById('theme-toggle').addEventListener('click', () => {
+            isDark = !isDark; applyTheme();
+        });
+        document.getElementById('theme-toggle-mobile').addEventListener('click', () => {
+            isDark = !isDark; applyTheme();
+        });
+
+        // ============================================
+        // ACTIVE NAV HIGHLIGHT
+        // ============================================
+        const navLinks = document.querySelectorAll('header nav a[href^="#"]');
+        const sectionObserver = new IntersectionObserver((entries) => {
+            entries.forEach(e => {
+                if (e.isIntersecting) {
+                    navLinks.forEach(l => l.classList.remove('nav-active'));
+                    const active = document.querySelector(`header nav a[href="#${e.target.id}"]`);
+                    if (active) active.classList.add('nav-active');
+                }
+            });
+        }, { threshold: 0.35 });
+
+        document.querySelectorAll('section[id]').forEach(s => sectionObserver.observe(s));
+
+        const contactForm = document.getElementById('contact-form');
+        contactForm.addEventListener('submit', async (event) => {
+            event.preventDefault();
+            const status = document.getElementById('contact-status');
+            const submit = document.getElementById('contact-submit');
+            if (!contactForm.reportValidity()) return;
+            const payload = Object.fromEntries(new FormData(contactForm).entries());
+            submit.disabled = true;
+            status.textContent = 'Sending your message…';
+            try {
+                const response = await fetch('/api/contact', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify(payload) });
+                const result = await response.json();
+                if (!response.ok) throw new Error(result.error || 'Your message could not be sent.');
+                contactForm.reset();
+                status.textContent = result.message || 'Message sent. Thank you for reaching out.';
+            } catch (error) {
+                if (error instanceof TypeError || error instanceof SyntaxError) {
+                    const subject = encodeURIComponent(`Portfolio message from ${payload.name}`);
+                    const body = encodeURIComponent(`Name: ${payload.name}\nEmail: ${payload.email}\n\n${payload.message}`);
+                    window.location.href = `mailto:JACKSONKIPCHUMBA001@gmail.com?subject=${subject}&body=${body}`;
+                    status.textContent = 'Your email app should open with your message. If it does not, email JACKSONKIPCHUMBA001@gmail.com.';
+                } else {
+                    status.textContent = error.message;
+                }
+            } finally {
+                submit.disabled = false;
+            }
+        });
+    </script>
+</body>
+</html>
